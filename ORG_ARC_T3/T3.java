@@ -28,7 +28,7 @@ public class T3 {
         System.out.println("Valor invalido");
         System.out.println("Quantas enderecos voce quer?");
         numDeEnderecos = in.nextInt();
-        if (numDeEnderecos == 0 ) {
+        if (numDeEnderecos == 0) {
           return;
         }
       }
@@ -108,12 +108,42 @@ public class T3 {
           }
           break;
         case 3:
-          // ! Mapeamento associativo, com 12 bits para tag, 3 bits para palavra
+          // ! Mapeamento associativo, com 12 bits para tag
           mdTag = 12;
+          if (temVariosEnderecos) {
+            for (String endereco : listaDeEnderecos) {
+              asociativo(endereco, mdTag);
+              System.out.println("----------------------------");
+            }
+            break;
+          } else {
+            System.out.println("digite endereço: ");
+            entrada = in.nextLine();
+            while (entrada.length() != 16) {
+              System.out.println("Porfavor digite um endereco com 16 bits");
+              entrada = in.nextLine();
+            }
+            asociativo(entrada, mdTag);
+          }
           break;
         case 4:
-          // ! Mapeamento associativo, com 13 bits para tag, 2 bits para palavra
+          // ! Mapeamento associativo, com 13 bits para tag
           mdTag = 13;
+          if (temVariosEnderecos) {
+            for (String endereco : listaDeEnderecos) {
+              asociativo(endereco, mdTag);
+              System.out.println("----------------------------");
+            }
+            break;
+          } else {
+            System.out.println("digite endereço: ");
+            entrada = in.nextLine();
+            while (entrada.length() != 16) {
+              System.out.println("Porfavor digite um endereco com 16 bits");
+              entrada = in.nextLine();
+            }
+            asociativo(entrada, mdTag);
+          }
           break;
         default:
           System.out.println("Opcao invalida");
@@ -129,7 +159,7 @@ public class T3 {
   public static void direto(String entrada, int mdTag, int mdLinha) {
     DecimalFormat hitFormat = new DecimalFormat("#.##%");
     DecimalFormat missFormat = new DecimalFormat("#.##%");
-    
+
     double hitCounter = 0;
     double missCounter = 0;
     int j = 0;
@@ -147,10 +177,36 @@ public class T3 {
 
     int numTotal = j;
 
-    
     System.out.println("\nO endereco " + entrada + " tem " + hitCounter + " hits e " + missCounter + " misses.");
     System.out.println("Porcentagem de hit:  " + hitFormat.format((hitCounter / numTotal)));
     System.out.println("Porcentagem de miss:  " + missFormat.format((missCounter / numTotal)));
+  }
+
+  public static void asociativo(String entrada, int mdTag) {
+    DecimalFormat hitFormat = new DecimalFormat("#.##%");
+    DecimalFormat missFormat = new DecimalFormat("#.##%");
+
+    double hitCounter = 0;
+    double missCounter = 0;
+    int j = 0;
+
+    for (String endereco : bin) {
+      String result = mapeamentoAsociativo(endereco, entrada, mdTag);
+      System.out.println("[" + j + "]-" + endereco + "-" + result);
+      if (result.equalsIgnoreCase("HIT")) {
+        hitCounter++;
+      } else {
+        missCounter++;
+      }
+      j++;
+    }
+
+    int numTotal = j;
+
+    System.out.println("\nO endereco " + entrada + " tem " + hitCounter + " hits e " + missCounter + " misses.");
+    System.out.println("Porcentagem de hit:  " + hitFormat.format((hitCounter / numTotal)));
+    System.out.println("Porcentagem de miss:  " + missFormat.format((missCounter / numTotal)));
+
   }
 
   public static String mapeamentoDireto(String endereco, String entrada, int mdTag, int mdLinha) {
@@ -181,34 +237,28 @@ public class T3 {
     return result;
   }
 
-  // public static String mapeamentoAsociativo(String endereco, String entrada,
-  // int mdTag) {
-  // String tagC = "";
-  // String lineC = "";
-  // String tag = "";
-  // String line = "";
-  // String result = "";
-  // int maxLinha = mdTag + mdLinha + 1;
+  public static String mapeamentoAsociativo(String endereco, String entrada, int mdTag) {
+    String tagC = "";
+    String lineC = "";
+    String tag = "";
+    String line = "";
+    String result = "";
 
-  // for (int i = 0; i < endereco.length(); i++) {
-  // if (i < mdTag) {
-  // tagC += endereco.charAt(i);
-  // tag += entrada.charAt(i);
-  // }
-  // if (i > mdTag && i < maxLinha) {
-  // lineC += endereco.charAt(i);
-  // line += entrada.charAt(i);
-  // }
-  // }
+    for (int i = 0; i < endereco.length(); i++) {
+      if (i < mdTag) {
+        tagC += endereco.charAt(i);
+        tag += entrada.charAt(i);
+      }
+    }
 
-  // if (tagC.equals(tag) && lineC.equals(line)) {
-  // result = "HIT";
-  // } else {
-  // result = "MISS";
-  // }
+    if (tagC.equals(tag)) {
+      result = "HIT";
+    } else {
+      result = "MISS";
+    }
 
-  // return result;
-  // }
+    return result;
+  }
 
   public static void startup() throws IOException {
     String coisa = leitor(path);
