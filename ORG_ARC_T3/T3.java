@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class T3 {
 
-  private static String path = "Arquivo.txt";
+  private static String path = "ORG_ARC_T3/Arquivo.txt";
   private static Scanner in = new Scanner(System.in);
   private static ArrayList<String> bin = new ArrayList<String>();
   private static ArrayList<String> listaDeEnderecos = new ArrayList<String>();
@@ -131,8 +131,8 @@ public class T3 {
     int numTotal = j;
 
     System.out.println("\nO endereco " + entrada + " tem " + hitCounter + " hits e " + missCounter + " misses.");
-    System.out.println("Porcentagem de hit: " + (hitCounter / numTotal) * 100);
-    System.out.println("Porcentagem de miss: " + (missCounter / numTotal) * 100 + "\n");
+    System.out.printf("Porcentagem de hit:  %.2f \n" , (hitCounter / numTotal) * 100);
+    System.out.printf("Porcentagem de miss: %.2f \n" , (missCounter / numTotal) * 100);
   }
 
   public static String mapeamentoDireto(String endereco, String entrada, int mdTag, int mdLinha) {
