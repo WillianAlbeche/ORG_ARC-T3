@@ -1,4 +1,3 @@
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -28,7 +27,7 @@ public class T3 {
   
     System.out.println("digite endereço: ");
 
-    String endereço="0001100101010010";
+    String entrada="0111111111111100";
 
 
     String coisa = leitor(path);
@@ -46,11 +45,18 @@ public class T3 {
         bin.add(converte(vet[i]));
     }
     int i=0;
-    for (String string : bin) {
+    // for (String string : bin) {
       
-      System.out.println("["+i+"]-"+string+"-"+ vet[i]);
-      i++;
+    //   System.out.println("["+i+"]-"+string+"-"+ vet[i]);
+    //   i++;
+    // }
+    int j =0;
+    for (String endereco : bin) {
+      String result = mapeamentoDireto(endereco, entrada);
+      System.out.println("["+j+"]-"+endereco+"-"+ result);
+      j++;
     }
+
 
   }
 
@@ -106,20 +112,28 @@ public class T3 {
   }
 
   public static String mapeamentoDireto( String endereco, String entrada){
+    String tagC = "";
+    String lineC = "";
     String tag = "";
-    String line = "";
+    String line ="";
+    String result ="";
       for (int i = 0; i < endereco.length(); i++) {
-
-            if(i<9){
-              tag+= endereco.charAt(i);
-            }
-            if(i>9 && i<13){
-              line+= endereco.charAt(i);
-            }
+          if(i<9){
+            tagC+= endereco.charAt(i);
+            tag+= entrada.charAt(i);
+          }
+          if(i>9 && i<13){
+            lineC+= endereco.charAt(i);
+            line += entrada.charAt(i);
+          }   
       }
-      return "s";
+      if(tagC.equals(tag) && lineC.equals(line)){
+        result ="HIT";
+      }
+      else 
+        result ="MISS";
+
+      return result;
   }
 
 }
-
-  
