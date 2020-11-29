@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -20,10 +21,16 @@ public class T3 {
       System.out.println("\nQuantas enderecos voce quer?");
       int numDeEnderecos = in.nextInt();
       in.nextLine();
-      while (numDeEnderecos <= 0) {
+      if (numDeEnderecos == 0) {
+        return;
+      }
+      while (numDeEnderecos < 0) {
         System.out.println("Valor invalido");
         System.out.println("Quantas enderecos voce quer?");
         numDeEnderecos = in.nextInt();
+        if (numDeEnderecos == 0 ) {
+          return;
+        }
       }
 
       boolean temVariosEnderecos = false;
@@ -64,10 +71,10 @@ public class T3 {
           mdTag = 9;
           mdLinha = 3;
           if (temVariosEnderecos) {
-              for (String endereco : listaDeEnderecos) {
-                direto(endereco, mdTag, mdLinha);
-                System.out.println("----------------------------");
-              }
+            for (String endereco : listaDeEnderecos) {
+              direto(endereco, mdTag, mdLinha);
+              System.out.println("----------------------------");
+            }
             break;
           } else {
             System.out.println("digite endereço: ");
@@ -85,10 +92,10 @@ public class T3 {
           mdTag = 9;
           mdLinha = 4;
           if (temVariosEnderecos) {
-              for (String endereco : listaDeEnderecos) {
-                direto(endereco, mdTag, mdLinha);
-                System.out.println("----------------------------");
-              }            
+            for (String endereco : listaDeEnderecos) {
+              direto(endereco, mdTag, mdLinha);
+              System.out.println("----------------------------");
+            }
             break;
           } else {
             System.out.println("digite endereço: ");
@@ -120,6 +127,9 @@ public class T3 {
   }
 
   public static void direto(String entrada, int mdTag, int mdLinha) {
+    DecimalFormat hitFormat = new DecimalFormat("#.##%");
+    DecimalFormat missFormat = new DecimalFormat("#.##%");
+    
     double hitCounter = 0;
     double missCounter = 0;
     int j = 0;
@@ -137,12 +147,10 @@ public class T3 {
 
     int numTotal = j;
 
-    String porcentagem = "%";
+    
     System.out.println("\nO endereco " + entrada + " tem " + hitCounter + " hits e " + missCounter + " misses.");
-    System.out.printf("Porcentagem de hit:  %.2f", (hitCounter / numTotal) * 100);
-    System.out.print(porcentagem + "\n");
-    System.out.printf("Porcentagem de miss: %.2f", (missCounter / numTotal) * 100);
-    System.out.print(porcentagem + "\n");
+    System.out.println("Porcentagem de hit:  " + hitFormat.format((hitCounter / numTotal)));
+    System.out.println("Porcentagem de miss:  " + missFormat.format((missCounter / numTotal)));
   }
 
   public static String mapeamentoDireto(String endereco, String entrada, int mdTag, int mdLinha) {
@@ -173,32 +181,33 @@ public class T3 {
     return result;
   }
 
-  // public static String mapeamentoAsociativo(String endereco, String entrada, int mdTag) {
-  //   String tagC = "";
-  //   String lineC = "";
-  //   String tag = "";
-  //   String line = "";
-  //   String result = "";
-  //   int maxLinha = mdTag + mdLinha + 1;
+  // public static String mapeamentoAsociativo(String endereco, String entrada,
+  // int mdTag) {
+  // String tagC = "";
+  // String lineC = "";
+  // String tag = "";
+  // String line = "";
+  // String result = "";
+  // int maxLinha = mdTag + mdLinha + 1;
 
-  //   for (int i = 0; i < endereco.length(); i++) {
-  //     if (i < mdTag) {
-  //       tagC += endereco.charAt(i);
-  //       tag += entrada.charAt(i);
-  //     }
-  //     if (i > mdTag && i < maxLinha) {
-  //       lineC += endereco.charAt(i);
-  //       line += entrada.charAt(i);
-  //     }
-  //   }
+  // for (int i = 0; i < endereco.length(); i++) {
+  // if (i < mdTag) {
+  // tagC += endereco.charAt(i);
+  // tag += entrada.charAt(i);
+  // }
+  // if (i > mdTag && i < maxLinha) {
+  // lineC += endereco.charAt(i);
+  // line += entrada.charAt(i);
+  // }
+  // }
 
-  //   if (tagC.equals(tag) && lineC.equals(line)) {
-  //     result = "HIT";
-  //   } else {
-  //     result = "MISS";
-  //   }
+  // if (tagC.equals(tag) && lineC.equals(line)) {
+  // result = "HIT";
+  // } else {
+  // result = "MISS";
+  // }
 
-  //   return result;
+  // return result;
   // }
 
   public static void startup() throws IOException {
