@@ -54,7 +54,7 @@ public class T3 {
       int mdTag = -1;
       int mdLinha = -1;
       String entrada = "RESET";
-      
+
       switch (opcao) {
         case 0:
           System.out.println("Saindo");
@@ -172,6 +172,34 @@ public class T3 {
 
     return result;
   }
+
+  // public static String mapeamentoAsociativo(String endereco, String entrada, int mdTag) {
+  //   String tagC = "";
+  //   String lineC = "";
+  //   String tag = "";
+  //   String line = "";
+  //   String result = "";
+  //   int maxLinha = mdTag + mdLinha + 1;
+
+  //   for (int i = 0; i < endereco.length(); i++) {
+  //     if (i < mdTag) {
+  //       tagC += endereco.charAt(i);
+  //       tag += entrada.charAt(i);
+  //     }
+  //     if (i > mdTag && i < maxLinha) {
+  //       lineC += endereco.charAt(i);
+  //       line += entrada.charAt(i);
+  //     }
+  //   }
+
+  //   if (tagC.equals(tag) && lineC.equals(line)) {
+  //     result = "HIT";
+  //   } else {
+  //     result = "MISS";
+  //   }
+
+  //   return result;
+  // }
 
   public static void startup() throws IOException {
     String coisa = leitor(path);
