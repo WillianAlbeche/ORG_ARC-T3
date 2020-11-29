@@ -9,11 +9,31 @@ public class T3 {
   private static String path = "Arquivo.txt";
   private static Scanner in = new Scanner(System.in);
   private static ArrayList<String> bin = new ArrayList<String>();
+  private static ArrayList<String> listaDeEnderecos = new ArrayList<String>();
   private static String[] vet;
 
   public static void main(String[] args) throws IOException {
     startup();
     // System.out.println("digite endereço: ");
+
+    System.out.println("Quantas enderecos voce quer?");
+    int numDeEnderecos = in.nextInt();
+    in.nextLine();
+    while (numDeEnderecos <= 0) {
+      System.out.println("Valor invalido");
+      System.out.println("Quantas enderecos voce quer?");
+      numDeEnderecos = in.nextInt();
+    }
+
+    boolean temVariosEnderecos = false;
+    if (numDeEnderecos > 1) {
+      temVariosEnderecos = true;
+      for (int i = 0; i < numDeEnderecos; i++) {
+        System.out.println("Informe o endereco numero " + (i + 1));
+        String entradaTemp = in.nextLine();
+        listaDeEnderecos.add(entradaTemp);
+      }
+    }
 
     int opcao;
     do {
@@ -37,8 +57,35 @@ public class T3 {
           break;
         case 1:
           // ! Mapeamento direto, com 9 bits para tag, 3 bits para linha
+          if (temVariosEnderecos) {
+            // ! fazer algo com os varios enderecos
+            mdTag = 9;
+            mdLinha = 3;
+            for (int i = 0; i < numDeEnderecos; i++) {
+              for (String endereco : listaDeEnderecos) {
+                direto(endereco, mdTag, mdLinha);
+                
+                System.out.println("----------------------------");
+              }
+            }
+            break;
+          } else {
+            mdTag = 9;
+            mdLinha = 3;
+            System.out.println("digite endereço: ");
+            entrada = in.nextLine();
+            while (entrada.length() != 16) {
+              System.out.println("Porfavor digite um endereco com 16 bits");
+              entrada = in.nextLine();
+            }
+            direto(entrada, mdTag, mdLinha);
+          }
+
+          break;
+        case 2:
+          // ! Mapeamento direto, com 9 bits para tag, 4 bits para linha
           mdTag = 9;
-          mdLinha = 3;
+          mdLinha = 4;
           System.out.println("digite endereço: ");
           entrada = in.nextLine();
           while (entrada.length() != 16) {
@@ -47,19 +94,13 @@ public class T3 {
           }
           direto(entrada, mdTag, mdLinha);
           break;
-        case 2:
-          // ! Mapeamento direto, com 9 bits para tag, 4 bits para linha
-          mdTag = 9;
-          mdLinha = 4;
-          System.out.println("digite endereço: ");
-          entrada = in.nextLine();
-
-          break;
         case 3:
           // ! Mapeamento associativo, com 12 bits para tag, 3 bits para palavra
+          mdTag = 12;
           break;
         case 4:
           // ! Mapeamento associativo, com 13 bits para tag, 2 bits para palavra
+          mdTag = 13;
           break;
         default:
           System.out.println("Opcao invalida");
@@ -68,16 +109,30 @@ public class T3 {
       }
     } while (opcao != 0);
 
-    //* exemplo que da hit, String entrada = "0111111111111100";
+    // * exemplo que da hit, String entrada = "0111111111111100";
   }
 
   public static void direto(String entrada, int mdTag, int mdLinha) {
+    double hitCounter = 0;
+    double missCounter = 0;
     int j = 0;
+
     for (String endereco : bin) {
       String result = mapeamentoDireto(endereco, entrada, mdTag, mdLinha);
       System.out.println("[" + j + "]-" + endereco + "-" + result);
+      if (result.equalsIgnoreCase("HIT") ) {
+        hitCounter ++;
+      } else {
+        missCounter ++;
+      }
       j++;
     }
+
+    int numTotal = j;
+
+    System.out.println("\nO endereco " + entrada + " tem " + hitCounter + " hits e " + missCounter + " misses.");
+    System.out.println("Porcentagem de hit: " + (hitCounter / numTotal) * 100);
+    System.out.println("Porcentagem de miss: " + (missCounter / numTotal) * 100 + "\n");
   }
 
   public static String mapeamentoDireto(String endereco, String entrada, int mdTag, int mdLinha) {
@@ -98,10 +153,12 @@ public class T3 {
         line += entrada.charAt(i);
       }
     }
+
     if (tagC.equals(tag) && lineC.equals(line)) {
       result = "HIT";
-    } else
+    } else {
       result = "MISS";
+    }
 
     return result;
   }
