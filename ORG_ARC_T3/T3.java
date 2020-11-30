@@ -152,7 +152,7 @@ public class T3 {
       }
     } while (opcao != 0);
 
-    // * exemplo que da hit, String entrada = "0111111111111100";
+    // * exemplo que da hit, String entrada = "011111111 1111100";
     // * exemplo que da hit, String entrada = "0000000001010010";
   }
 
@@ -164,9 +164,26 @@ public class T3 {
     double missCounter = 0;
     int j = 0;
 
+    System.out.println("\nLinha | Tag       | Palavras         | Resultado ");
+    // System.out.println("000 | 123456789 | 1234567890123456 | 0 ");
     for (String endereco : bin) {
+      String tag = endereco.substring(0, 9);
+      String palavras = "temp";
+      if (mdLinha == 3) {
+        palavras = endereco.substring(0, 13);
+        palavras += "XXX";
+      } else if (mdLinha == 4) {
+        palavras = endereco.substring(0, 14);
+        palavras += "XX";
+      }
       String result = mapeamentoDireto(endereco, entrada, mdTag, mdLinha);
-      System.out.println("[" + j + "]-" + endereco + "-" + result);
+      if (j < 10) {
+        System.out.println("00" + j + "   | " + tag + " | " + palavras + " | " + result);
+      } else if (j < 100) {
+        System.out.println("0" + j + "   | " + tag + " | " + palavras + " | " + result);
+      } else {
+        System.out.println(j + "   | " + tag + " | " + palavras + " | " + result);
+      }
       if (result.equalsIgnoreCase("HIT")) {
         hitCounter++;
       } else {
@@ -190,9 +207,25 @@ public class T3 {
     double missCounter = 0;
     int j = 0;
 
+    System.out.println("\nLinha | Tag       | Palavras         | Resultado ");
     for (String endereco : bin) {
-      String result = mapeamentoAsociativo(endereco, entrada, mdTag);
-      System.out.println("[" + j + "]-" + endereco + "-" + result);
+      String tag = endereco.substring(0, 9);
+      String palavras = "temp";
+      if (mdTag == 12) {
+        palavras = endereco.substring(0, 13);
+        palavras += "XXX";
+      } else if (mdTag == 13) {
+        palavras = endereco.substring(0, 14);
+        palavras += "XX";
+      }
+      String result = mapeamentoAssociativo(endereco, entrada, mdTag);
+      if (j < 10) {
+        System.out.println("00" + j + "   | " + tag + " | " + palavras + " | " + result);
+      } else if (j < 100) {
+        System.out.println("0" + j + "   | " + tag + " | " + palavras + " | " + result);
+      } else {
+        System.out.println(j + "   | " + tag + " | " + palavras + " | " + result);
+      }
       if (result.equalsIgnoreCase("HIT")) {
         hitCounter++;
       } else {
@@ -237,7 +270,7 @@ public class T3 {
     return result;
   }
 
-  public static String mapeamentoAsociativo(String endereco, String entrada, int mdTag) {
+  public static String mapeamentoAssociativo(String endereco, String entrada, int mdTag) {
     String tagC = "";
     String lineC = "";
     String tag = "";
