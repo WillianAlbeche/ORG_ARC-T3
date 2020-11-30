@@ -17,146 +17,66 @@ public class T3 {
     startup();
     int opcao;
 
-    do {
-      System.out.println("\nQuantas enderecos voce quer?");
-      int numDeEnderecos = in.nextInt();
-      in.nextLine();
-      if (numDeEnderecos == 0) {
-        return;
-      }
-      while (numDeEnderecos < 0) {
-        System.out.println("Valor invalido");
-        System.out.println("Quantas enderecos voce quer?");
-        numDeEnderecos = in.nextInt();
-        if (numDeEnderecos == 0) {
-          return;
-        }
-      }
+    printarComInfo(bin);
+    System.out.println("\n\n\n\n");
 
-      boolean temVariosEnderecos = false;
-      if (numDeEnderecos > 1) {
-        temVariosEnderecos = true;
-        for (int i = 0; i < numDeEnderecos; i++) {
-          System.out.println("Informe o endereco numero " + (i + 1));
-          String entradaTemp = in.nextLine();
-          while (entradaTemp.length() != 16) {
-            System.out.println("Porfavor digite um endereco com 16 bits");
-            entradaTemp = in.nextLine();
-          }
-          listaDeEnderecos.add(entradaTemp);
-        }
-      }
 
-      System.out.println("-------------------");
-      System.out.println("| 1 - Operacao 1  |");
-      System.out.println("| 2 - Operacao 2  |");
-      System.out.println("| 3 - Operacao 3  |");
-      System.out.println("| 4 - Operacao 4  |");
-      System.out.println("| 0 - Sair        |");
-      System.out.println("-------------------");
 
-      opcao = in.nextInt();
-      in.nextLine();
+    System.out.println("-------------------");
+    System.out.println("| 1 - Operacao 1  |");
+    System.out.println("| 2 - Operacao 2  |");
+    System.out.println("| 3 - Operacao 3  |");
+    System.out.println("| 4 - Operacao 4  |");
+    System.out.println("| 0 - Sair        |");
+    System.out.println("-------------------");
 
-      int mdTag = -1;
-      int mdLinha = -1;
-      String entrada = "RESET";
+    opcao = in.nextInt();
+    in.nextLine();
 
-      switch (opcao) {
-        case 0:
-          System.out.println("Saindo");
-          break;
-        case 1:
-          // ! Mapeamento direto, com 9 bits para tag, 3 bits para linha
-          mdTag = 9;
-          mdLinha = 3;
-          if (temVariosEnderecos) {
-            for (String endereco : listaDeEnderecos) {
-              direto(endereco, mdTag, mdLinha);
-              System.out.println("----------------------------");
-            }
-            break;
-          } else {
-            System.out.println("digite endereço: ");
-            entrada = in.nextLine();
-            while (entrada.length() != 16) {
-              System.out.println("Porfavor digite um endereco com 16 bits");
-              entrada = in.nextLine();
-            }
-            direto(entrada, mdTag, mdLinha);
-          }
+    int mdTag = -1;
+    int mdLinha = -1;
 
-          break;
-        case 2:
-          // ! Mapeamento direto, com 9 bits para tag, 4 bits para linha
-          mdTag = 9;
-          mdLinha = 4;
-          if (temVariosEnderecos) {
-            for (String endereco : listaDeEnderecos) {
-              direto(endereco, mdTag, mdLinha);
-              System.out.println("----------------------------");
-            }
-            break;
-          } else {
-            System.out.println("digite endereço: ");
-            entrada = in.nextLine();
-            while (entrada.length() != 16) {
-              System.out.println("Porfavor digite um endereco com 16 bits");
-              entrada = in.nextLine();
-            }
-            direto(entrada, mdTag, mdLinha);
-          }
-          break;
-        case 3:
-          // ! Mapeamento associativo, com 12 bits para tag
-          mdTag = 12;
-          if (temVariosEnderecos) {
-            for (String endereco : listaDeEnderecos) {
-              asociativo(endereco, mdTag);
-              System.out.println("----------------------------");
-            }
-            break;
-          } else {
-            System.out.println("digite endereço: ");
-            entrada = in.nextLine();
-            while (entrada.length() != 16) {
-              System.out.println("Porfavor digite um endereco com 16 bits");
-              entrada = in.nextLine();
-            }
-            asociativo(entrada, mdTag);
-          }
-          break;
-        case 4:
-          // ! Mapeamento associativo, com 13 bits para tag
-          mdTag = 13;
-          if (temVariosEnderecos) {
-            for (String endereco : listaDeEnderecos) {
-              asociativo(endereco, mdTag);
-              System.out.println("----------------------------");
-            }
-            break;
-          } else {
-            System.out.println("digite endereço: ");
-            entrada = in.nextLine();
-            while (entrada.length() != 16) {
-              System.out.println("Porfavor digite um endereco com 16 bits");
-              entrada = in.nextLine();
-            }
-            asociativo(entrada, mdTag);
-          }
-          break;
-        default:
-          System.out.println("Opcao invalida");
-          opcao = in.nextInt();
-          break;
-      }
-    } while (opcao != 0);
-
-    // * exemplo que da hit, String entrada = "011111111 1111100";
-    // * exemplo que da hit, String entrada = "0000000001010010";
+    switch (opcao) {
+      case 0:
+        System.out.println("Saindo");
+        break;
+      case 1:
+        // ! Mapeamento direto, com 9 bits para tag, 3 bits para linha
+        mdTag = 9;
+        mdLinha = 3;
+        direto(mdTag, mdLinha);
+        break;
+      case 2:
+        // ! Mapeamento direto, com 9 bits para tag, 4 bits para linha
+        mdTag = 9;
+        mdLinha = 4;
+        System.out.println("digite endereço: ");
+        direto(mdTag, mdLinha);
+        break;
+      case 3:
+        // ! Mapeamento associativo, com 12 bits para tag
+        mdTag = 12;
+        System.out.println("digite endereço: ");
+        asociativo(mdTag);
+        break;
+      case 4:
+        // ! Mapeamento associativo, com 13 bits para tag
+        mdTag = 13;
+        asociativo(mdTag);
+        break;
+      default:
+        System.out.println("Opcao invalida");
+        opcao = in.nextInt();
+        break;
+    }
+    while (opcao != 0)
+      ;
   }
 
-  public static void direto(String entrada, int mdTag, int mdLinha) {
+  // * exemplo que da hit, String entrada = "011111111 1111100";
+  // * exemplo que da hit, String entrada = "0000000001010010";
+
+  public static void direto(int mdTag, int mdLinha) {
     DecimalFormat hitFormat = new DecimalFormat("#.##%");
     DecimalFormat missFormat = new DecimalFormat("#.##%");
 
@@ -169,14 +89,16 @@ public class T3 {
     for (String endereco : bin) {
       String tag = endereco.substring(0, 9);
       String palavras = "temp";
+      String linha = "temp";
       if (mdLinha == 3) {
         palavras = endereco.substring(0, 13);
+        //linha = endereco.substring(beginIndex, endIndex)
         palavras += "XXX";
       } else if (mdLinha == 4) {
         palavras = endereco.substring(0, 14);
         palavras += "XX";
       }
-      String result = mapeamentoDireto(endereco, entrada, mdTag, mdLinha);
+      String result = mapeamentoDireto(endereco, mdTag, mdLinha);
       if (j < 10) {
         System.out.println("00" + j + "   | " + tag + " | " + palavras + " | " + result);
       } else if (j < 100) {
@@ -194,12 +116,13 @@ public class T3 {
 
     int numTotal = j;
 
-    System.out.println("\nO endereco " + entrada + " tem " + hitCounter + " hits e " + missCounter + " misses.");
+    // System.out.println("\nO endereco " + " tem " + hitCounter + " hits e " +
+    // missCounter + " misses.");
     System.out.println("Porcentagem de hit:  " + hitFormat.format((hitCounter / numTotal)));
     System.out.println("Porcentagem de miss:  " + missFormat.format((missCounter / numTotal)));
   }
 
-  public static void asociativo(String entrada, int mdTag) {
+  public static void asociativo(int mdTag) {
     DecimalFormat hitFormat = new DecimalFormat("#.##%");
     DecimalFormat missFormat = new DecimalFormat("#.##%");
 
@@ -207,7 +130,7 @@ public class T3 {
     double missCounter = 0;
     int j = 0;
 
-    System.out.println("\nLinha | Tag       | Palavras         | Resultado ");
+    System.out.println("\n Tag       | Palavras         | Resultado ");
     for (String endereco : bin) {
       String tag = endereco.substring(0, 9);
       String palavras = "temp";
@@ -218,7 +141,8 @@ public class T3 {
         palavras = endereco.substring(0, 14);
         palavras += "XX";
       }
-      String result = mapeamentoAssociativo(endereco, entrada, mdTag);
+      String result = mapeamentoAssociativo(endereco, mdTag);
+      //! VER ISSO 
       if (j < 10) {
         System.out.println("00" + j + "   | " + tag + " | " + palavras + " | " + result);
       } else if (j < 100) {
@@ -236,13 +160,14 @@ public class T3 {
 
     int numTotal = j;
 
-    System.out.println("\nO endereco " + entrada + " tem " + hitCounter + " hits e " + missCounter + " misses.");
+    // System.out.println("\nO endereco " + entrada + " tem " + hitCounter + " hits
+    // e " + missCounter + " misses.");
     System.out.println("Porcentagem de hit:  " + hitFormat.format((hitCounter / numTotal)));
     System.out.println("Porcentagem de miss:  " + missFormat.format((missCounter / numTotal)));
 
   }
 
-  public static String mapeamentoDireto(String endereco, String entrada, int mdTag, int mdLinha) {
+  public static String mapeamentoDireto(String endereco, int mdTag, int mdLinha) {
     String tagC = "";
     String lineC = "";
     String tag = "";
@@ -253,11 +178,9 @@ public class T3 {
     for (int i = 0; i < endereco.length(); i++) {
       if (i < mdTag) {
         tagC += endereco.charAt(i);
-        tag += entrada.charAt(i);
       }
       if (i > mdTag && i < maxLinha) {
         lineC += endereco.charAt(i);
-        line += entrada.charAt(i);
       }
     }
 
@@ -270,7 +193,7 @@ public class T3 {
     return result;
   }
 
-  public static String mapeamentoAssociativo(String endereco, String entrada, int mdTag) {
+  public static String mapeamentoAssociativo(String endereco, int mdTag) {
     String tagC = "";
     String lineC = "";
     String tag = "";
@@ -280,7 +203,6 @@ public class T3 {
     for (int i = 0; i < endereco.length(); i++) {
       if (i < mdTag) {
         tagC += endereco.charAt(i);
-        tag += entrada.charAt(i);
       }
     }
 
@@ -312,10 +234,10 @@ public class T3 {
     }
   }
 
-  public static void printarComInfo(String[] vet) {
+  public static void printarComInfo(ArrayList vet) {
     int i = 0;
     for (String string : bin) {
-      System.out.println("[" + i + "]-" + string + "-" + vet[i]);
+      System.out.println("[" + i + "]-" + string + "\n");
       i++;
     }
   }
