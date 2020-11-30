@@ -12,6 +12,7 @@ public class T3 {
   private static ArrayList<String> bin = new ArrayList<String>();
   private static ArrayList<String> listaDeEnderecos = new ArrayList<String>();
   private static String[] vet;
+  private static ArrayList<String> cache = new ArrayList<String>();
 
   public static void main(String[] args) throws IOException {
     startup();
@@ -19,8 +20,6 @@ public class T3 {
 
     printarComInfo(bin);
     System.out.println("\n\n\n\n");
-
-
 
     System.out.println("-------------------");
     System.out.println("| 1 - Operacao 1  |");
@@ -73,6 +72,16 @@ public class T3 {
       ;
   }
 
+  public static String addicionarAoCache(String endereco) {
+    if (cache.contains(endereco)) {
+      System.out.println("CONTEM");
+    } else {
+      System.out.println("N CONTEM");
+    }
+
+    return null;
+  }
+
   // * exemplo que da hit, String entrada = "011111111 1111100";
   // * exemplo que da hit, String entrada = "0000000001010010";
 
@@ -84,28 +93,25 @@ public class T3 {
     double missCounter = 0;
     int j = 0;
 
-    System.out.println("\nLinha | Tag       | Palavras         | Resultado ");
+    System.out.println("\nLinha | Tag       | Palavras        | Resultado ");
     // System.out.println("000 | 123456789 | 1234567890123456 | 0 ");
     for (String endereco : bin) {
       String tag = endereco.substring(0, 9);
       String palavras = "temp";
       String linha = "temp";
-      if (mdLinha == 3) {
-        palavras = endereco.substring(0, 13);
-        //linha = endereco.substring(beginIndex, endIndex)
+      if (mdLinha == 3) { // * DIRETO 1
+        palavras = endereco.substring(0, 12);
+        linha = endereco.substring(9, 12);
         palavras += "XXX";
-      } else if (mdLinha == 4) {
-        palavras = endereco.substring(0, 14);
+      } else if (mdLinha == 4) { // * DIRETO 2
+        palavras = endereco.substring(0, 13);
+        linha = endereco.substring(9, 13);
         palavras += "XX";
       }
       String result = mapeamentoDireto(endereco, mdTag, mdLinha);
-      if (j < 10) {
-        System.out.println("00" + j + "   | " + tag + " | " + palavras + " | " + result);
-      } else if (j < 100) {
-        System.out.println("0" + j + "   | " + tag + " | " + palavras + " | " + result);
-      } else {
-        System.out.println(j + "   | " + tag + " | " + palavras + " | " + result);
-      }
+
+      System.out.println(linha + "   | " + tag + " | " + palavras + " | " + result);
+
       if (result.equalsIgnoreCase("HIT")) {
         hitCounter++;
       } else {
@@ -132,17 +138,19 @@ public class T3 {
 
     System.out.println("\n Tag       | Palavras         | Resultado ");
     for (String endereco : bin) {
-      String tag = endereco.substring(0, 9);
+      String tag = "temp";
       String palavras = "temp";
       if (mdTag == 12) {
-        palavras = endereco.substring(0, 13);
+        tag = endereco.substring(0, 12);
+        palavras = endereco.substring(0, 12);
         palavras += "XXX";
       } else if (mdTag == 13) {
-        palavras = endereco.substring(0, 14);
+        tag = endereco.substring(0, 13);
+        palavras = endereco.substring(0, 13);
         palavras += "XX";
       }
       String result = mapeamentoAssociativo(endereco, mdTag);
-      //! VER ISSO 
+      // ! VER ISSO
       if (j < 10) {
         System.out.println("00" + j + "   | " + tag + " | " + palavras + " | " + result);
       } else if (j < 100) {
@@ -183,6 +191,7 @@ public class T3 {
         lineC += endereco.charAt(i);
       }
     }
+
 
     if (tagC.equals(tag) && lineC.equals(line)) {
       result = "HIT";
@@ -234,7 +243,7 @@ public class T3 {
     }
   }
 
-  public static void printarComInfo(ArrayList vet) {
+  public static void printarComInfo(ArrayList<String> vet) {
     int i = 0;
     for (String string : bin) {
       System.out.println("[" + i + "]-" + string + "\n");
