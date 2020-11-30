@@ -74,12 +74,13 @@ public class T3 {
 
   public static String addicionarAoCache(String endereco) {
     if (cache.contains(endereco)) {
-      System.out.println("CONTEM");
+      System.out.println("HIT");
+      return "HIT";
     } else {
-      System.out.println("N CONTEM");
+      System.out.println("MISS");
+      return "MISS";
     }
-
-    return null;
+    
   }
 
   // * exemplo que da hit, String entrada = "011111111 1111100";
@@ -112,6 +113,7 @@ public class T3 {
 
       System.out.println(linha + "   | " + tag + " | " + palavras + " | " + result);
 
+      
       if (result.equalsIgnoreCase("HIT")) {
         hitCounter++;
       } else {
@@ -192,6 +194,12 @@ public class T3 {
       }
     }
 
+    String testando = addicionarAoCache(endereco);
+    if (testando.equalsIgnoreCase("HIT")) {
+      result = "HIT";
+    } else if (testando.equalsIgnoreCase("MISS")) {
+      result = "MISS";
+    }
 
     if (tagC.equals(tag) && lineC.equals(line)) {
       result = "HIT";
