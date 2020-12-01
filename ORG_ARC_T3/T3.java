@@ -29,7 +29,7 @@ public class T3 {
       System.out.println("| 1 - Operacao 1- Mapeamento direto linha = 3 bits    |");
       System.out.println("| 2 - Operacao 2- Mapeamento direto linha = 4 bits    |");
       System.out.println("| 3 - Operacao 3- Mapemeamento associativo tag = 12   |");
-      System.out.println("| 4 - Operacao 4  Mapemeamento associativo tag = 13   |");
+      System.out.println("| 4 - Operacao 4- Mapemeamento associativo tag = 13   |");
       System.out.println("| 0 - Sair                                            |");
       System.out.println("-------------------------------------------------------\n");
 
