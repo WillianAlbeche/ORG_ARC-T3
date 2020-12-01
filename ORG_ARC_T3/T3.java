@@ -21,13 +21,13 @@ public class T3 {
     //printarComInfo(bin);
    //System.out.println("\n\n\n\n");
 
-    System.out.println("-------------------");
-    System.out.println("| 1 - Operacao 1  |");
-    System.out.println("| 2 - Operacao 2  |");
-    System.out.println("| 3 - Operacao 3  |");
-    System.out.println("| 4 - Operacao 4  |");
-    System.out.println("| 0 - Sair        |");
-    System.out.println("-------------------");
+    System.out.println("------------------------------------------------------");
+    System.out.println("| 1 - Operacao 1- Mapeamento direto linha = 3 bits    |");
+    System.out.println("| 2 - Operacao 2- Mapeamento direto linha = 4 bits    |");
+    System.out.println("| 3 - Operacao 3- Mapemeamento associativo tag = 12   |");
+    System.out.println("| 4 - Operacao 4  Mapemeamento associativo tag = 13   |");
+    System.out.println("| 0 - Sair                                            |");
+    System.out.println("------------------------------------------------------");
 
     opcao = in.nextInt();
     in.nextLine();
