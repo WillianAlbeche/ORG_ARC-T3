@@ -73,24 +73,26 @@ public class T3 {
   }
 
   public static String addicionarAoCache(String data,String tag,String line) {
+    String resultado="Erro";
+    
     for (cacheLine cacheD: cache) {
+      System.out.println("cache: "+ cacheD.getTag()+"linha:"+ cacheD.getLine());
       if (cacheD.getTag().equals(tag) && cacheD.getLine().equals(line)) {
-        System.out.println("HIT");
-        return "HIT";
-      } else if(!(cacheD.getTag().equals(tag) && cacheD.getLine().equals(line))){
-        cacheLine cacheAdd = new cacheLine(tag,data,line);
-        cache.add(cacheAdd);
-        System.out.println("MISS");
-        return "MISS";
-      }
+        resultado = "HIT";
+      } 
     }
     if(cache.size() == 0){
       cacheLine cacheAdd = new cacheLine(tag,data,line);
       cache.add(cacheAdd);
-      return"MISS";
+      resultado ="MISS";
+    }
+     else if(!resultado.equals("HIT")){
+      cacheLine cacheAdd = new cacheLine(tag,data,line);
+      cache.add(cacheAdd);
+      return "MISS";
     }
     
-    return "Null";
+    return resultado;
   }
 
   // * exemplo que da hit, String entrada = "011111111 1111100";
@@ -119,20 +121,25 @@ public class T3 {
         linha = endereco.substring(9, 13);
         palavras += "XX";
       }
-      String result = mapeamentoDireto(endereco, mdTag, mdLinha);
+
+      String result = addicionarAoCache(palavras,tag,linha);
       
       System.out.println(linha + "   | " + tag + " | " + palavras + " | " + result);
 
       
       if (result.equalsIgnoreCase("HIT")) {
         hitCounter++;
-      } else {
+        
+      } else if(result.equalsIgnoreCase("MISS")) {
         missCounter++;
       }
+      else System.out.println("fudeu");
       j++;
     }
 
     int numTotal = j;
+    System.out.println("counter hit: "+ hitCounter);
+    System.out.println("counter miss: "+ missCounter);
 
     // System.out.println("\nO endereco " + " tem " + hitCounter + " hits e " +
     // missCounter + " misses.");
@@ -175,6 +182,9 @@ public class T3 {
       } else {
         missCounter++;
       }
+      if(result.equalsIgnoreCase("ERRO")){
+        System.out.println("ERROOO");
+      }
       j++;
     }
 
@@ -200,11 +210,12 @@ public class T3 {
     for (int i = 0; i < endereco.length(); i++) {
       if (i < mdTag) {
         tagC += endereco.charAt(i);
+        lineC= endereco.substring(9, 12);
         palavras = endereco.substring(0, 12);
         palavras += "XXX";
       }
       if (i > mdTag && i < maxLinha) {
-        lineC += endereco.charAt(i);
+        lineC = endereco.substring(9, 13);
         palavras = endereco.substring(0, 13);
         palavras += "XX";
       }
@@ -217,6 +228,9 @@ public class T3 {
       result = "HIT";
     } else if (testando.equalsIgnoreCase("MISS")) {
       result = "MISS";
+    }
+    else if(testando.equalsIgnoreCase("ERRO")){
+      result = "erro";
     }
     return result;
   }
