@@ -12,7 +12,7 @@ public class T3 {
   private static ArrayList<String> bin = new ArrayList<String>();
   private static ArrayList<String> listaDeEnderecos = new ArrayList<String>();
   private static String[] vet;
-  private static ArrayList<String> cache = new ArrayList<String>();
+  private static ArrayList<cacheLine> cache = new ArrayList<cacheLine>();
 
   public static void main(String[] args) throws IOException {
     startup();
@@ -72,15 +72,25 @@ public class T3 {
       ;
   }
 
-  public static String addicionarAoCache(String endereco) {
-    if (cache.contains(endereco)) {
-      System.out.println("HIT");
-      return "HIT";
-    } else {
-      System.out.println("MISS");
-      return "MISS";
+  public static String addicionarAoCache(String data,String tag,String line) {
+    for (cacheLine cacheD: cache) {
+      if (cacheD.getTag().equals(tag) && cacheD.getLine().equals(line)) {
+        System.out.println("HIT");
+        return "HIT";
+      } else if(!(cacheD.getTag().equals(tag) && cacheD.getLine().equals(line))){
+        cacheLine cacheAdd = new cacheLine(tag,data,line);
+        cache.add(cacheAdd);
+        System.out.println("MISS");
+        return "MISS";
+      }
+    }
+    if(cache.size() == 0){
+      cacheLine cacheAdd = new cacheLine(tag,data,line);
+      cache.add(cacheAdd);
+      return"MISS";
     }
     
+    return "Null";
   }
 
   // * exemplo que da hit, String entrada = "011111111 1111100";
@@ -110,7 +120,7 @@ public class T3 {
         palavras += "XX";
       }
       String result = mapeamentoDireto(endereco, mdTag, mdLinha);
-
+      
       System.out.println(linha + "   | " + tag + " | " + palavras + " | " + result);
 
       
@@ -183,30 +193,31 @@ public class T3 {
     String tag = "";
     String line = "";
     String result = "";
+    String palavras ="";
+
     int maxLinha = mdTag + mdLinha + 1;
 
     for (int i = 0; i < endereco.length(); i++) {
       if (i < mdTag) {
         tagC += endereco.charAt(i);
+        palavras = endereco.substring(0, 12);
+        palavras += "XXX";
       }
       if (i > mdTag && i < maxLinha) {
         lineC += endereco.charAt(i);
+        palavras = endereco.substring(0, 13);
+        palavras += "XX";
       }
     }
 
-    String testando = addicionarAoCache(endereco);
+    String testando = addicionarAoCache(palavras,tagC,lineC);
+
+
     if (testando.equalsIgnoreCase("HIT")) {
       result = "HIT";
     } else if (testando.equalsIgnoreCase("MISS")) {
       result = "MISS";
     }
-
-    if (tagC.equals(tag) && lineC.equals(line)) {
-      result = "HIT";
-    } else {
-      result = "MISS";
-    }
-
     return result;
   }
 
