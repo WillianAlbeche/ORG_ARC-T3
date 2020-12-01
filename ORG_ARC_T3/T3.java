@@ -18,8 +18,8 @@ public class T3 {
     startup();
     int opcao;
 
-    printarComInfo(bin);
-    System.out.println("\n\n\n\n");
+    //printarComInfo(bin);
+   //System.out.println("\n\n\n\n");
 
     System.out.println("-------------------");
     System.out.println("| 1 - Operacao 1  |");
@@ -76,7 +76,6 @@ public class T3 {
     String resultado="Erro";
     
     for (cacheLine cacheD: cache) {
-      System.out.println("cache: "+ cacheD.getTag()+"linha:"+ cacheD.getLine());
       if (cacheD.getTag().equals(tag) && cacheD.getLine().equals(line)) {
         resultado = "HIT";
       } 
@@ -88,6 +87,28 @@ public class T3 {
     }
      else if(!resultado.equals("HIT")){
       cacheLine cacheAdd = new cacheLine(tag,data,line);
+      cache.add(cacheAdd);
+      return "MISS";
+    }
+    
+    return resultado;
+  }
+  public static String addicionarAoCacheAssociativo(String data,String tag) {
+    String resultado="Erro";
+    
+    for (cacheLine cacheD: cache) {
+      
+      if (cacheD.getTag().equals(tag)) {
+        resultado = "HIT";
+      } 
+    }
+    if(cache.size() == 0){
+      cacheLine cacheAdd = new cacheLine(tag,data);
+      cache.add(cacheAdd);
+      resultado ="MISS";
+    }
+     else if(!resultado.equals("HIT")){
+      cacheLine cacheAdd = new cacheLine(tag,data);
       cache.add(cacheAdd);
       return "MISS";
     }
@@ -133,7 +154,7 @@ public class T3 {
       } else if(result.equalsIgnoreCase("MISS")) {
         missCounter++;
       }
-      else System.out.println("fudeu");
+      else System.out.println("Deu ruim :(");
       j++;
     }
 
@@ -168,15 +189,11 @@ public class T3 {
         palavras = endereco.substring(0, 13);
         palavras += "XX";
       }
-      String result = mapeamentoAssociativo(endereco, mdTag);
+      String result = addicionarAoCacheAssociativo(palavras,tag);
       // ! VER ISSO
-      if (j < 10) {
-        System.out.println("00" + j + "   | " + tag + " | " + palavras + " | " + result);
-      } else if (j < 100) {
-        System.out.println("0" + j + "   | " + tag + " | " + palavras + " | " + result);
-      } else {
-        System.out.println(j + "   | " + tag + " | " + palavras + " | " + result);
-      }
+      
+        System.out.println( tag + " | " + palavras + " | " + result);
+      
       if (result.equalsIgnoreCase("HIT")) {
         hitCounter++;
       } else {
@@ -194,68 +211,10 @@ public class T3 {
     // e " + missCounter + " misses.");
     System.out.println("Porcentagem de hit:  " + hitFormat.format((hitCounter / numTotal)));
     System.out.println("Porcentagem de miss:  " + missFormat.format((missCounter / numTotal)));
-
+    System.out.println("counter hit: "+ hitCounter);
+    System.out.println("counter miss: "+ missCounter);
   }
 
-  public static String mapeamentoDireto(String endereco, int mdTag, int mdLinha) {
-    String tagC = "";
-    String lineC = "";
-    String tag = "";
-    String line = "";
-    String result = "";
-    String palavras ="";
-
-    int maxLinha = mdTag + mdLinha + 1;
-
-    for (int i = 0; i < endereco.length(); i++) {
-      if (i < mdTag) {
-        tagC += endereco.charAt(i);
-        lineC= endereco.substring(9, 12);
-        palavras = endereco.substring(0, 12);
-        palavras += "XXX";
-      }
-      if (i > mdTag && i < maxLinha) {
-        lineC = endereco.substring(9, 13);
-        palavras = endereco.substring(0, 13);
-        palavras += "XX";
-      }
-    }
-
-    String testando = addicionarAoCache(palavras,tagC,lineC);
-
-
-    if (testando.equalsIgnoreCase("HIT")) {
-      result = "HIT";
-    } else if (testando.equalsIgnoreCase("MISS")) {
-      result = "MISS";
-    }
-    else if(testando.equalsIgnoreCase("ERRO")){
-      result = "erro";
-    }
-    return result;
-  }
-
-  public static String mapeamentoAssociativo(String endereco, int mdTag) {
-    String tagC = "";
-    String lineC = "";
-    String tag = "";
-    String line = "";
-    String result = "";
-
-    for (int i = 0; i < endereco.length(); i++) {
-      if (i < mdTag) {
-        tagC += endereco.charAt(i);
-      }
-    }
-
-    if (tagC.equals(tag)) {
-      result = "HIT";
-    } else {
-      result = "MISS";
-    }
-
-    return result;
-  }
 
   public static void startup() throws IOException {
     String coisa = leitor(path);
