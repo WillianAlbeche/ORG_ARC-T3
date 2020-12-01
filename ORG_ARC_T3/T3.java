@@ -1,3 +1,10 @@
+/* 
+*==========================================================
+* Codigo by Willian Magnum Albeche, Arthur Schossler Dutra
+*==========================================================
+*/
+
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
